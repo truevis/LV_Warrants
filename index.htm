@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="full" lang="en">
+<!-- Make sure the <html> tag is set to the .full CSS class. Change the background image in the full.css file. -->
+
+<head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <title>LV Warrants</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/full.css" rel="stylesheet">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-30681825-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<h3>Search Las Vegas Warrants</h3>
+
+    <input id="searchterm" />
+    <div id="results"></div>
+    <script>
+      $("#searchterm").keyup(function(e){
+        var q = $("#searchterm").val();
+        $.getJSON("https://opendata.lasvegasnevada.gov/resource/6z9c-gnx8.json?$q=" + q,
+                function(d) {
+        //var d = data;
+        //var ndef = d[0].defendant
+        //var num = d[0].case_number
+        //showData.empty();
+        var rows = '';
+        if(d.length > 0){   
+    //this array is not empty 
+        for(var i = 0; i < d.length; i++) {
+            var obj = d[i];
+            rows += '<tr id = "row' + i + '"><td><a href="https://www.google.com/search?q=' + obj.defendant + '"  target="_blank">' + 
+            obj.defendant + '</a> - ' + obj.charge_description + '</td></tr>';
+        }
+                $("#results").empty();
+               // $("#results").append("<p>Results for <b>" + q + "</b></p>" + rows);
+                $("#results").append("<p>Results for <b>" + q + "</b></p><table>" + rows + "</table>");
+            }
+            else{
+   //this array is empty
+    $("#results").empty();
+    $("#results").append("No results for <b>" + q + "</b>");
+    }  
+                });
+        });
+    </script>
+    <br>Full data from <a href="https://opendata.lasvegasnevada.gov/Public-Safety/Outstanding-Arrest-Warrants/xqy4-ja5b">lasvegasnevada.gov</a>
+        <br>Search Engine by Eric B. <a href="http://truevis.com">truevis.com</a>
+  </body>
+
+</body>
+
+</html>
